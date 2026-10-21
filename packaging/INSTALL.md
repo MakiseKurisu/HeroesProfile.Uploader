@@ -2,7 +2,7 @@
 
 This is the new version of the uploader, one app for Windows, macOS and Linux. It's in **beta**: builds
 are published as **pre-releases** named like `v3.0.0-beta.2` on the
-[Releases](https://github.com/Heroes-Profile/HeroesProfile.Uploader/releases) page, and they aren't
+[Releases](https://github.com/MakiseKurisu/HeroesProfile.Uploader/releases) page, and they aren't
 code-signed yet. So your OS will warn you the first time you open one; the steps below say how to get
 past that.
 

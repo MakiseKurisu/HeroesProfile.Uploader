@@ -1,13 +1,13 @@
-# Heroesprofile.Uploader [![Join Discord Chat](https://img.shields.io/discord/650747275886198815?label=Discord&logo=discord)](https://discord.gg/cADfdFP)[![GitHub Release Downloads](https://img.shields.io/github/downloads/Heroes-Profile/HeroesProfile.Uploader/latest/total.svg)]()
+# Heroesprofile.Uploader [![Join Discord Chat](https://img.shields.io/discord/650747275886198815?label=Discord&logo=discord)](https://discord.gg/cADfdFP)[![GitHub Release Downloads](https://img.shields.io/github/downloads/MakiseKurisu/HeroesProfile.Uploader/latest/total.svg)]()
 
 
 
-Uploads Heroes of the Storm replays to [heroesprofile.com](https://www.heroesprofile.com/) ([repo link](https://github.com/Heroes-Profile/HeroesProfile.Uploader))
+Uploads Heroes of the Storm replays to [heroesprofile.com](https://www.heroesprofile.com/) ([repo link](https://github.com/MakiseKurisu/HeroesProfile.Uploader))
 
 # Installation
 
 One app for **Windows, macOS and Linux**. Download it from the
-[Releases](https://github.com/Heroes-Profile/HeroesProfile.Uploader/releases/latest) page:
+[Releases](https://github.com/MakiseKurisu/HeroesProfile.Uploader/releases/latest) page:
 
 | | Download |
 |---|---|

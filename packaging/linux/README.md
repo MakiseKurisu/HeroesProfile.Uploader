@@ -8,7 +8,7 @@ and reads the replays from that Wine prefix. It's the same app as on Windows and
 ## Quick start
 
 1. Download the **`.AppImage`** from the
-   [latest release](https://github.com/Heroes-Profile/HeroesProfile.Uploader/releases/latest).
+   [latest release](https://github.com/MakiseKurisu/HeroesProfile.Uploader/releases/latest).
    Nothing else to install: no .NET, no extra libraries. Works on any current x86_64 distro.
    Move it somewhere permanent first (for example `~/Applications`): it updates itself where it is.
 2. Make it executable and start it. Either right-click → Properties → Permissions → "Allow executing

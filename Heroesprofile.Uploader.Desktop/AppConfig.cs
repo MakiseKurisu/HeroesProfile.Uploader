@@ -146,7 +146,7 @@ namespace Heroesprofile.Uploader.Desktop
         /// </summary>
         public string LogLevel { get; set; } = "Debug";
 
-        public const string DefaultUpdateRepository = "Heroes-Profile/HeroesProfile.Uploader";
+        public const string DefaultUpdateRepository = "MakiseKurisu/HeroesProfile.Uploader";
 
         private string _updateRepository = DefaultUpdateRepository;
 

@@ -33,7 +33,7 @@ public class AppConfigTests
     }
 
     [Theory]
-    [InlineData("https://github.com/Heroes-Profile/HeroesProfile.Uploader", "Heroes-Profile/HeroesProfile.Uploader")] // how the WPF app stored it
+    [InlineData("https://github.com/MakiseKurisu/HeroesProfile.Uploader", "MakiseKurisu/HeroesProfile.Uploader")] // how the WPF app stored it
     [InlineData("https://github.com/someone/fork/", "someone/fork")]
     [InlineData("github.com/someone/fork.git", "someone/fork")]
     [InlineData("someone/fork", "someone/fork")]
