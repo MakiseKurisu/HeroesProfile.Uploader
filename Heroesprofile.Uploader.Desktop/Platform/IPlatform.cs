@@ -44,6 +44,12 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// </summary>
         bool UseSettledMonitor { get; }
 
+        /// <summary>Whether "Show in app menu" is available on this OS yet.</summary>
+        bool SupportsAppMenuEntry { get; }
+
+        /// <summary>Whether auto update is available on this OS yet.</summary>
+        bool SupportsAutoUpdate { get; }
+
         /// <summary>Whether "Start on login" is available on this OS yet.</summary>
         bool SupportsStartOnLogin { get; }
 

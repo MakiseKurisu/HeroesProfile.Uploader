@@ -45,6 +45,9 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         public bool ReplayPathIsWinePrefix => false;
         public bool UseSettledMonitor => true;
 
+        /// <summary>"Show in app menu" is Linux-only: Windows and macOS installers add the app to their menus themselves.</summary>
+        public bool SupportsAppMenuEntry => false;
+        public bool SupportsAutoUpdate => true;
         public bool SupportsStartOnLogin => true;
 
         private static string LaunchAgentPath => Path.Combine(Home, "Library", "LaunchAgents", $"{LaunchAgentLabel}.plist");

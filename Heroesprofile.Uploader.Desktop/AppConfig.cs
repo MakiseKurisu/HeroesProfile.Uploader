@@ -179,7 +179,7 @@ namespace Heroesprofile.Uploader.Desktop
         }
 
         /// <summary>Check for updates on startup/hourly (GUI) or startup/every 24h (`run`) and stage them automatically.</summary>
-        public bool AutoUpdate { get; set; } = true;
+        public bool AutoUpdate { get; set; } = Platforms.Current.SupportsAutoUpdate;
 
         /// <summary>Also consider prerelease GitHub releases (test builds) when checking for updates.</summary>
         public bool AllowPreReleases { get; set; }

@@ -77,14 +77,15 @@ public class WpfSettingsImporterTests
     [Fact]
     public void Values_that_do_not_parse_keep_the_defaults()
     {
+        var defconfig = new AppConfig();
         var config = WpfSettingsImporter.FromUserConfig(
             UserConfig(("AutoUpdate", "maybe"), ("WindowWidth", "wide"), ("DeleteAfterUpload", "Everything"), ("Theme", "")),
             FakeUnprotect);
 
-        Assert.True(config.AutoUpdate);
-        Assert.Equal(760, config.WindowWidth);
-        Assert.Equal(DeleteFiles.None, config.DeleteAfterUpload);
-        Assert.Equal(AppConfig.DarkTheme, config.Theme);
+        Assert.Equal(defconfig.AutoUpdate, config.AutoUpdate);
+        Assert.Equal(defconfig.WindowWidth, config.WindowWidth);
+        Assert.Equal(defconfig.DeleteAfterUpload, config.DeleteAfterUpload);
+        Assert.Equal(defconfig.Theme, config.Theme);
     }
 
     [Fact]

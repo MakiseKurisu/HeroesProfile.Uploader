@@ -122,8 +122,7 @@ namespace Heroesprofile.Uploader.Desktop.Gui.ViewModels
 
         public bool SupportsStartOnLogin => Platform.SupportsStartOnLogin;
 
-        /// <summary>"Show in app menu" is Linux-only: Windows and macOS installers add the app to their menus themselves.</summary>
-        public bool SupportsAppMenuEntry => OperatingSystem.IsLinux();
+        public bool SupportsAppMenuEntry => Platform.SupportsAppMenuEntry;
 
         // The WPF wording, adjusted where the OS calls it something else.
         public string StartOnLoginLabel => OperatingSystem.IsWindows() ? "Start with windows" : "Start on login";

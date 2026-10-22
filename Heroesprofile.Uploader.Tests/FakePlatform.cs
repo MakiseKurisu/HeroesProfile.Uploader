@@ -16,6 +16,8 @@ internal sealed class FakePlatform : IPlatform
     public string? DefaultBattleLobbyFolder { get; init; }
     public bool ReplayPathIsWinePrefix { get; init; }
     public bool UseSettledMonitor { get; init; }
+    public bool SupportsAppMenuEntry => false;
+    public bool SupportsAutoUpdate => false;
     public bool SupportsStartOnLogin => false;
     public void SetStartOnLogin(bool enabled) { }
     public string SingleInstanceSocketPath => "instance.sock";

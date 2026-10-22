@@ -37,7 +37,10 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         public bool ReplayPathIsWinePrefix => true;
         public bool UseSettledMonitor => true;
 
-        public bool SupportsStartOnLogin => true;
+        /// <summary>System integration is only supported in AppImage.</summary>
+        public bool SupportsAppMenuEntry => DesktopIntegration.RunningAppImage != null;
+        public bool SupportsAutoUpdate => DesktopIntegration.RunningAppImage != null;
+        public bool SupportsStartOnLogin => DesktopIntegration.RunningAppImage != null;
 
         public void SetStartOnLogin(bool enabled) => DesktopIntegration.SetStartOnLogin(enabled);
 
