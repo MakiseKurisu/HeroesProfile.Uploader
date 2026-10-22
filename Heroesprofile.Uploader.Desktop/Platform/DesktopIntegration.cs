@@ -121,8 +121,8 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// </summary>
         public static void InstallAppMenuEntry()
         {
-            var launch = InstalledExePath;
-            if (CurrentBuildType == BuildType.AppImage) {
+            var launch = LaunchablePath;
+            if (CurrentBuildType == BuildType.SingleFileBinary) {
                 var sourceExePath = Environment.ProcessPath;
                 Directory.CreateDirectory(BinDir);
                 // Already running the installed copy: just (re)write the menu entry and icon.
@@ -131,6 +131,7 @@ namespace Heroesprofile.Uploader.Desktop.Platform
                 } else {
                     CancelPendingDelete();
                 }
+                launch = InstalledExePath;
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(IconPath));
@@ -156,12 +157,17 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// <summary>Removes the app-menu entry, icon and any ~/.local/bin copy, but not the autostart entry.</summary>
         public static void RemoveAppMenuEntry()
         {
+            if (CurrentBuildType == BuildType.Other) {
+                return;
+            }
             DeleteIfExists(DesktopEntryPath);
             DeleteIfExists(IconPath);
-            if (IsRunningInstalledCopy) {
-                DeleteAfterExit(InstalledExePath);
-            } else {
-                DeleteIfExists(InstalledExePath);
+            if (CurrentBuildType == BuildType.SingleFileBinary) {
+                if (IsRunningInstalledCopy) {
+                    DeleteAfterExit(InstalledExePath);
+                } else {
+                    DeleteIfExists(InstalledExePath);
+                }
             }
         }
 
@@ -209,6 +215,11 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// <summary>Writes or removes the XDG autostart entry for Settings' "Start on login" toggle.</summary>
         public static void SetStartOnLogin(bool enabled)
         {
+            if (CurrentBuildType == BuildType.Other) {
+                _log.Warn("Start on login is only supported in the published single-file binary or AppImage.");
+                return;
+            }
+
             if (!enabled) {
                 DeleteIfExists(AutostartEntryPath);
                 return;
@@ -261,7 +272,7 @@ StartupWMClass={AppId}
         /// </summary>
         public static void RefreshInstalledCopyIfStale()
         {
-            if (!IsAppMenuEntryInstalled || CurrentBuildType != BuildType.Other) {
+            if (!IsAppMenuEntryInstalled || CurrentBuildType != BuildType.SingleFileBinary) {
                 return;
             }
 
