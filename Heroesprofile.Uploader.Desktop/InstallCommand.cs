@@ -27,6 +27,12 @@ namespace Heroesprofile.Uploader.Desktop
 
         public static int Uninstall()
         {
+            var whyNot = DesktopIntegration.WhyNotInstallable();
+            if (whyNot != null) {
+                Console.Error.WriteLine(whyNot);
+                return 2;
+            }
+
             DesktopIntegration.UninstallAppMenuEntry();
             Console.WriteLine("Removed the app menu entry, icon, autostart entry, and the ~/.local/bin copy.");
             Console.WriteLine($"Your settings and replay data under {AppConfig.DataDir} were left alone.");
