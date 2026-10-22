@@ -3,6 +3,8 @@ using System;
 using System.Threading.Tasks;
 using Velopack;
 using Velopack.Sources;
+using Outcome = Heroesprofile.Uploader.Desktop.Updates.IUpdater.Outcome;
+using Result = Heroesprofile.Uploader.Desktop.Updates.IUpdater.Result;
 
 namespace Heroesprofile.Uploader.Desktop.Updates
 {
@@ -13,25 +15,9 @@ namespace Heroesprofile.Uploader.Desktop.Updates
     /// Only an installed copy can update itself (Setup.exe on Windows, the AppImage on Linux, the .app on
     /// macOS); a dev build or the Linux tarball reports <see cref="Outcome.NotInstalled"/>.
     /// </summary>
-    internal sealed class AppUpdater
+    internal sealed class AppUpdater : IUpdater
     {
         private static readonly Logger _log = LogManager.GetCurrentClassLogger();
-
-        public enum Outcome
-        {
-            /// <summary>Not an installed copy, so Velopack can't update it - see <see cref="ReleaseChecker"/>.</summary>
-            NotInstalled,
-            NoUpdate,
-            /// <summary>An update is downloaded and applies on restart.</summary>
-            ReadyToRestart,
-            Failed,
-        }
-
-        public sealed class Result
-        {
-            public Outcome Outcome { get; init; }
-            public string Version { get; init; }
-        }
 
         private UpdateManager _manager;
         private VelopackAsset _ready;

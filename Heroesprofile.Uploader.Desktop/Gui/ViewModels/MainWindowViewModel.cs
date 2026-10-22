@@ -98,7 +98,7 @@ namespace Heroesprofile.Uploader.Desktop.Gui.ViewModels
         [ObservableProperty]
         private bool showRestartBanner;
 
-        private readonly AppUpdater _updater = new AppUpdater();
+        private readonly IUpdater _updater = new AppUpdater();
         private bool _restarting;
 
         [ObservableProperty]
@@ -514,20 +514,20 @@ namespace Heroesprofile.Uploader.Desktop.Gui.ViewModels
 
             var result = await _updater.CheckAndDownloadAsync(Config);
             switch (result.Outcome) {
-                case AppUpdater.Outcome.ReadyToRestart:
+                case IUpdater.Outcome.ReadyToRestart:
                     ShowRestartBanner = true;
                     if (manual) {
                         UpdateStatusText = "";
                     }
                     break;
 
-                case AppUpdater.Outcome.NoUpdate:
+                case IUpdater.Outcome.NoUpdate:
                     if (manual) {
                         UpdateStatusText = "You're up to date.";
                     }
                     break;
 
-                case AppUpdater.Outcome.NotInstalled:
+                case IUpdater.Outcome.NotInstalled:
                     // A copy Velopack can't update (the Linux tarball, a dev build): point at the release
                     // instead - on the automatic check too, or tarball users would never hear of updates.
                     await ReportNewerReleaseAsync(manual);
