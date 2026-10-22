@@ -29,7 +29,7 @@ namespace Heroesprofile.Uploader.Desktop
             // would be killed along with the old process, so the service just keeps its version.
             var restartedAfterUpdate = false;
             var velopack = VelopackApp.Build()
-                .SetAutoApplyOnStartup(command != "run")
+                .SetAutoApplyOnStartup(command != "run" && Platforms.Current.SupportsAutoUpdate)
                 .OnRestarted(_ => restartedAfterUpdate = true);
             if (OperatingSystem.IsWindows()) {
                 // Only Windows installs have an uninstaller to hook into.
