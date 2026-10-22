@@ -98,7 +98,7 @@ namespace Heroesprofile.Uploader.Desktop.Gui.ViewModels
         [ObservableProperty]
         private bool showRestartBanner;
 
-        private readonly IUpdater _updater = new AppUpdater();
+        private readonly IUpdater _updater = Platform.SupportsAutoUpdate ? new AppUpdater() : new FakeUpdater();
         private bool _restarting;
 
         [ObservableProperty]
