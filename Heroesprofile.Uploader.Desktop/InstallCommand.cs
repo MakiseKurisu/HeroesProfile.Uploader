@@ -20,7 +20,7 @@ namespace Heroesprofile.Uploader.Desktop
             }
 
             DesktopIntegration.InstallAppMenuEntry();
-            Console.WriteLine($"Installed to {DesktopIntegration.InstalledExePath} and added to the app menu.");
+            Console.WriteLine($"Added {DesktopIntegration.RunningAppImage ?? DesktopIntegration.InstalledExePath} to the app menu.");
             Console.WriteLine("Run it from your app launcher, or enable \"Start on login\" from its Settings dialog.");
             return 0;
         }
@@ -34,7 +34,9 @@ namespace Heroesprofile.Uploader.Desktop
             }
 
             DesktopIntegration.UninstallAppMenuEntry();
-            Console.WriteLine("Removed the app menu entry, icon, autostart entry, and the ~/.local/bin copy.");
+            Console.WriteLine(DesktopIntegration.CurrentBuildType == DesktopIntegration.BuildType.SingleFileBinary
+                ? "Removed the app menu entry, icon, autostart entry, and the ~/.local/bin copy."
+                : "Removed the app menu entry, icon, and autostart entry.");
             Console.WriteLine($"Your settings and replay data under {AppConfig.DataDir} were left alone.");
             return 0;
         }
