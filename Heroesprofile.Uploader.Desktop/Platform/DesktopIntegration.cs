@@ -58,11 +58,38 @@ namespace Heroesprofile.Uploader.Desktop.Platform
             }
         }
 
+        public enum BuildType
+        {
+            AppImage,
+            SingleFileBinary,
+            Other
+        }
+
+        /// <summary>
+        /// Return the type of current running build.
+        /// Used to control system integration behaviour
+        /// </summary>
+        public static BuildType CurrentBuildType
+        {
+            get {
+                var exe = Environment.ProcessPath;
+                if (RunningAppImage != null) {
+                    return BuildType.AppImage;
+                } else if (!string.IsNullOrEmpty(exe) &&
+                           !exe.EndsWith("dotnet", StringComparison.OrdinalIgnoreCase) &&
+                           !File.Exists(Path.Combine(Path.GetDirectoryName(exe), Path.GetFileName(exe) + ".dll"))) {
+                    return BuildType.SingleFileBinary;
+                } else {
+                    return BuildType.Other;
+                }
+            }
+        }
+
         /// <summary>
         /// Where this app can be launched from again later. Inside an AppImage, ProcessPath is the
         /// binary in a temporary mount that disappears on exit, so the .AppImage file itself is used.
         /// </summary>
-        private static string LaunchablePath => RunningAppImage ?? Environment.ProcessPath;
+        private static string LaunchablePath => CurrentBuildType == BuildType.AppImage ? RunningAppImage : Environment.ProcessPath;
 
         public static bool IsAppMenuEntryInstalled => File.Exists(DesktopEntryPath);
         private static string DesktopEntryPath => Path.Combine(DataHome, "applications", $"{AppId}.desktop");
@@ -81,12 +108,7 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// </summary>
         public static string WhyNotInstallable()
         {
-            if (RunningAppImage != null) {
-                return null;
-            }
-            var exe = Environment.ProcessPath;
-            if (string.IsNullOrEmpty(exe) || exe.EndsWith("dotnet", StringComparison.OrdinalIgnoreCase) ||
-                File.Exists(Path.Combine(Path.GetDirectoryName(exe), Path.GetFileName(exe) + ".dll"))) {
+            if (CurrentBuildType == BuildType.Other) {
                 return "install needs to be run from the published single-file binary, not `dotnet run`/`dotnet build` output. " +
                     "Publish with `dotnet publish -c Release -r linux-x64 --self-contained -p:PublishSingleFile=true` and run that.";
             }
@@ -99,8 +121,8 @@ namespace Heroesprofile.Uploader.Desktop.Platform
         /// </summary>
         public static void InstallAppMenuEntry()
         {
-            var launch = RunningAppImage;
-            if (launch == null) {
+            var launch = InstalledExePath;
+            if (CurrentBuildType == BuildType.AppImage) {
                 var sourceExePath = Environment.ProcessPath;
                 Directory.CreateDirectory(BinDir);
                 // Already running the installed copy: just (re)write the menu entry and icon.
@@ -109,7 +131,6 @@ namespace Heroesprofile.Uploader.Desktop.Platform
                 } else {
                     CancelPendingDelete();
                 }
-                launch = InstalledExePath;
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(IconPath));
@@ -196,8 +217,12 @@ namespace Heroesprofile.Uploader.Desktop.Platform
             // The AppImage if that's what's running (Velopack keeps it current); otherwise prefer the
             // installed copy so autostart survives the source binary moving, falling back to wherever
             // we're currently running from (e.g. testing before `install`).
-            var exePath = RunningAppImage
-                ?? (File.Exists(InstalledExePath) && _pendingDelete == null ? InstalledExePath : Environment.ProcessPath);
+            var exePath = Environment.ProcessPath;
+            if (CurrentBuildType == BuildType.AppImage) {
+                exePath = RunningAppImage;
+            } else if (File.Exists(InstalledExePath) && _pendingDelete == null) {
+                exePath = InstalledExePath;
+            }
             Directory.CreateDirectory(Path.GetDirectoryName(AutostartEntryPath));
             File.WriteAllText(AutostartEntryPath, DesktopEntryContents(exePath, minimized: true));
             _log.Info($"Wrote autostart entry {AutostartEntryPath}");
@@ -236,7 +261,7 @@ StartupWMClass={AppId}
         /// </summary>
         public static void RefreshInstalledCopyIfStale()
         {
-            if (!IsAppMenuEntryInstalled || RunningAppImage != null || WhyNotInstallable() != null) {
+            if (!IsAppMenuEntryInstalled || CurrentBuildType != BuildType.Other) {
                 return;
             }
 
